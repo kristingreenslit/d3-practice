@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>D3 Practice</title>
+	<link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="http://getbootstrap.com/examples/justified-nav/justified-nav.css" rel="stylesheet">
+    <style>
+     #visualization {border: 1px solid green;}
+    </style>
+</head>
+<body>
+ <div class="container">
+  <div class="jumbotron">
+   <svg id="visualization" width="1000" height="500"></svg>
+   <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+   <script>
+	   var data = [{
+	     "sale":"202",
+	     "year": "2000"
+	    }, {
+	     "sale": "215",
+	     "year": "2001"
+	    }, {
+	     "sale": "179",
+	     "year": "2002"
+	    }, {
+	     "sale": "199",
+	     "year": "2003"
+	    }, {
+	     "sale": "134",
+	     "year": "2003"
+	    }, {
+	     "sale": "176",
+	     "year": "2010"
+	    }];
+
+	    var vis = d3.select("#visualization"),
+	      WIDTH = 1000,
+	      HEIGHT = 500,
+	      MARGINS = {
+	      	top: 20,
+	      	right: 20,
+	      	bottom: 20,
+	      	left: 50
+	      }
+	    </script>
+
+
+  </div>
+ </div>
+</body>
+</html>
