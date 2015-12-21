@@ -20,7 +20,7 @@
 <body>
   <div class="container">
     <div class="jumbotron">
-     <svg id="visualization" width="1000" height="500"></svg>
+      <svg id="visualization" width="1000" height="500"></svg>
        <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
        <script>
 
@@ -44,24 +44,24 @@
 	     "year": "2010"
 	   }];
 
-	   var data2 = [{
-        "sale": "152",
-        "year": "2000"
+       var data2 = [{
+       	 "sale": "152",
+         "year": "2000"
        }, {
-        "sale": "189",
-        "year": "2002"
+         "sale": "189",
+         "year": "2002"
        }, {
-        "sale": "179",
-        "year": "2004"
+         "sale": "179",
+         "year": "2004"
        }, {
-        "sale": "199",
-        "year": "2006"
+         "sale": "199",
+         "year": "2006"
        }, {
-        "sale": "134",
-        "year": "2008"
+         "sale": "134",
+         "year": "2008"
        }, {
-        "sale": "176",
-        "year": "2010"
+         "sale": "176",
+         "year": "2010"
        }];
 
        var vis = d3.select("#visualization"), // defines container for chart
@@ -74,12 +74,12 @@
       	 left: 50
        }
 
-	   xScale = d3.scale.linear() // method that creates scales for the axes
-	     .range([MARGINS.left, WIDTH - MARGINS.right])
-	     .domain([2000,2010]),
-	   yScale = d3.scale.linear()
-	     .range([HEIGHT - MARGINS.top, MARGINS.bottom])
-	     .domain([134,215]), // range defines area to render the graph, range is max and min values to plot
+       xScale = d3.scale.linear() // method that creates scales for the axes
+         .range([MARGINS.left, WIDTH - MARGINS.right])
+         .domain([2000,2010]),
+       yScale = d3.scale.linear()
+         .range([HEIGHT - MARGINS.top, MARGINS.bottom])
+         .domain([134,215]), // range defines area to render the graph, range is max and min values to plot
        xAxis = d3.svg.axis() // method that creates axes
          .scale(xScale), // create axes
        yAxis = d3.svg.axis()
