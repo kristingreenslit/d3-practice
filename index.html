@@ -1,124 +1,121 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<title>D3 Practice</title>
-	<link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="http://getbootstrap.com/examples/justified-nav/justified-nav.css" rel="stylesheet">
-    <style>
-      .axis path {
-        fill: none;
-        stroke: #777;
-        shape-rendering: crispEdges;
-      }
-      .axis text {
-        font-family: Lato;
-        font-size: 13px;
-      }
-    </style>
+  <meta charset="UTF-8">
+  <title>D3 Practice</title>
+  <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="http://getbootstrap.com/examples/justified-nav/justified-nav.css" rel="stylesheet">
+  <style>
+    .axis path {
+      fill: none;
+      stroke: #777;
+      shape-rendering: crispEdges;
+    }
+    .axis text {
+      font-family: Lato;
+      font-size: 13px;
+    }
+</style>
 </head>
 <body>
- <div class="container">
-  <div class="jumbotron">
-   <svg id="visualization" width="1000" height="500"></svg>
-   <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
-   <script>
+  <div class="container">
+    <div class="jumbotron">
+     <svg id="visualization" width="1000" height="500"></svg>
+       <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+       <script>
 
-     var data = [{
-	   "sale":"202",
-	   "year": "2000"
-	 }, {
-	   "sale": "215",
-	   "year": "2001"
-	 }, {
-	   "sale": "179",
-	   "year": "2002"
-	 }, {
-	   "sale": "199",
-	   "year": "2003"
-	 }, {
-	   "sale": "134",
-	   "year": "2003"
-	 }, {
-	   "sale": "176",
-	   "year": "2010"
-	 }];
+       var data = [{
+	     "sale":"202",
+	     "year": "2000"
+	   }, {
+	     "sale": "215",
+	     "year": "2001"
+	   }, {
+	     "sale": "179",
+	     "year": "2002"
+	   }, {
+	     "sale": "199",
+	     "year": "2003"
+	   }, {
+	     "sale": "134",
+	     "year": "2003"
+	   }, {
+	     "sale": "176",
+	     "year": "2010"
+	   }];
 
-	 var data2 = [{
-      "sale": "152",
-      "year": "2000"
-     }, {
-      "sale": "189",
-      "year": "2002"
-     }, {
-      "sale": "179",
-      "year": "2004"
-     }, {
-      "sale": "199",
-      "year": "2006"
-     }, {
-      "sale": "134",
-      "year": "2008"
-     }, {
-      "sale": "176",
-      "year": "2010"
-     }];
+	   var data2 = [{
+        "sale": "152",
+        "year": "2000"
+       }, {
+        "sale": "189",
+        "year": "2002"
+       }, {
+        "sale": "179",
+        "year": "2004"
+       }, {
+        "sale": "199",
+        "year": "2006"
+       }, {
+        "sale": "134",
+        "year": "2008"
+       }, {
+        "sale": "176",
+        "year": "2010"
+       }];
 
-	    var vis = d3.select("#visualization"), // defines container for chart
-	      WIDTH = 1000,
-	      HEIGHT = 500,
-	      MARGINS = {
-	      	top: 20,
-	      	right: 20,
-	      	bottom: 20,
-	      	left: 50
-	      }
+       var vis = d3.select("#visualization"), // defines container for chart
+         WIDTH = 1000,
+         HEIGHT = 500,
+         MARGINS = {
+      	 top: 20,
+      	 right: 20,
+      	 bottom: 20,
+      	 left: 50
+       }
 
-	    xScale = d3.scale.linear()
-	      .range([MARGINS.left, WIDTH - MARGINS.right])
-	      .domain([2000,2010]),
-	    yScale = d3.scale.linear()
-	      .range([HEIGHT - MARGINS.top, MARGINS.bottom])
-	      .domain([134,215]),
-	      // range defines area to render the graph, range is max and min values to plot
+	   xScale = d3.scale.linear() // method that creates scales for the axes
+	     .range([MARGINS.left, WIDTH - MARGINS.right])
+	     .domain([2000,2010]),
+	   yScale = d3.scale.linear()
+	     .range([HEIGHT - MARGINS.top, MARGINS.bottom])
+	     .domain([134,215]), // range defines area to render the graph, range is max and min values to plot
+       xAxis = d3.svg.axis() // method that creates axes
+         .scale(xScale), // create axes
+       yAxis = d3.svg.axis()
+         .scale(yScale).orient("left");
 
-        xAxis = d3.svg.axis()
-          .scale(xScale), // create axes
-        yAxis = d3.svg.axis()
-          .scale(yScale).orient("left");
+       vis.append("svg:g")
+         .attr("class","axis") // css
+         .attr("transform", "translate(0," + (HEIGHT - MARGINS.bottom)+ ")")
+         .call(xAxis); // append x axis to svg container and move downwards
+       vis.append("svg:g")
+         .attr("class","axis")
+         .attr("transform", "translate(" + (MARGINS.left) + ",0)")
+         .call(yAxis);
 
-        vis.append("svg:g")
-          .attr("class","axis") // css
-          .attr("transform", "translate(0," + (HEIGHT - MARGINS.bottom)+ ")")
-          .call(xAxis); // append x axis to svg container and move downwards
-        vis.append("svg:g")
-          .attr("class","axis")
-          .attr("transform", "translate(" + (MARGINS.left) + ",0)")
-          .call(yAxis);
+       var lineGen = d3.svg.line() // draw a line
+         .x(function(d) {
+           return xScale(d.year);
+         })
+         .y(function(d) {
+           return yScale(d.sale);
+         })
+         .interpolate("basis"); //specifying linear interpolation - curves vs. jagged between data points
+       vis.append('svg:path') // append line path to svg
+         .attr('d', lineGen(data)) // map data to plotting space
+         .attr('stroke', 'green')
+         .attr('stroke-width', 2)
+         .attr('fill', 'none');
 
-        var lineGen = d3.svg.line() // draw a line
-          .x(function(d) {
-            return xScale(d.year);
-          })
-          .y(function(d) {
-            return yScale(d.sale);
-          })
-          .interpolate("basis"); //specifying linear interpolation - curves vs. jagged between data points
+       vis.append('svg:path') // append line path to svg for 2nd set of data
+         .attr('d', lineGen(data2)) 
+         .attr('stroke', 'blue') // change color for 2nd data set
+         .attr('stroke-width', 2)
+         .attr('fill', 'none');
 
-        vis.append('svg:path') // append line path to svg
-          .attr('d', lineGen(data)) // map data to plotting space
-          .attr('stroke', 'green')
-          .attr('stroke-width', 2)
-          .attr('fill', 'none');
-
-        vis.append('svg:path') // append line path to svg for 2nd set of data
-          .attr('d', lineGen(data2)) 
-          .attr('stroke', 'blue') // change color for 2nd data set
-          .attr('stroke-width', 2)
-          .attr('fill', 'none');
-
-	</script>
+	   </script>
+    </div>
   </div>
- </div>
 </body>
 </html>
